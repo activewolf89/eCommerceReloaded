@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace eCommerceReloaded.Models 
 {
     public class ProductInOrder:BaseEntity 
     {
+        [Key]
         public int productInOrderId{get;set;}
         public int orderId {get;set;}
         public Order order {get;set;}

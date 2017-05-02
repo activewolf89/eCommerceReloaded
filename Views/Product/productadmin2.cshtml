@@ -1,0 +1,92 @@
+@using eCommerceReloaded.Models
+<link rel="stylesheet" href="~/css/admin1.css" />
+<hr>
+<h1>Welcome to product management </h1>
+<div class="new">
+    <h3>Add a new category</h3>
+    <form action="/admin/category/new" method="post">
+        <input type="text" name="name"><br>
+        <input type="submit" value="Add">
+    </form>
+    <h3>Add a new event</h3>
+    <form action="/admin/event/new" method="post">
+        <input type="text" name="name"><br>
+        <select id="month" name="month" >
+            @for(int i=1;i<13;i++)
+            {
+                <option value=@i>@i</option>
+            }
+        </select><br>
+        <input type="submit" value="Add">
+    </form>
+    <h3>Add a new product</h3>
+    <form action="/admin/product/new" method="post" enctype="multipart/form-data">
+            <p class="error">@ViewData["error"]</p>
+            <span class="error" name="name"></span></br>
+            <label>Name</label></br></br>
+            <input name="name"/></br></br>
+            <label>Inventory</label></br></br>
+            <input name="inventory"/></br></br>
+            <label>Price</label></br></br>
+            <input name="price"/>Cent</br></br>
+            <label >Please upload image of this product</label></br></br></br></br>
+            <input type="file" name="image" accept="image/*"/></br></br>
+            <label >Desc</label></br></br>
+            <textarea   name="description" cols="40" rows="5"></textarea></br>
+            <label>Category:</label><br>
+            <select id="category" name="category" >
+                @if(ViewBag.categories!=null)
+                {
+                    foreach(Category category in @ViewBag.categories)
+                    {
+                        <option value=@category.categoryId>@category.name</option>
+                    }
+                }
+            </select><br>
+            <label>Events:</label><br><br>
+            @if(ViewBag.events!=null)
+            {
+                foreach(Event anevent in @ViewBag.events)
+                {
+                    <input type="checkbox" name="Event" value=@anevent.eventId> @anevent.name <span>&nbsp at &nbsp </span> @anevent.month<br>
+                }
+            }
+            <button type="submit">Create a new product</button>
+        </form><br><br>
+</div>
+<div class="list-table">
+    @if(@ViewBag.products!=null)
+    {
+        @foreach(Product product in @ViewBag.products)
+        {
+            <div class="pitem">
+                <a href="/product/@product.productId">
+                    <img class="pimg" src="@product.imageUrl" alt="">
+                </a>
+                <div class="pitemtext">
+                    <h4 class="ptext">Name:@product.name</h4>
+                    <h4 class="ptext">Category:@product.category.name </h4>
+                    <h4 class="ptext">Desc:@product.description </h4>
+                    @{
+                        decimal price=(decimal)@product.price/100;
+                    }
+                    <h4 class="ptext">Price:$@price </h4>
+                    <h4 class="ptext">(@product.inventory &nbsp left) </h4>
+                    @if(@ViewBag.productevents !=null)
+                    {
+                        foreach(ProductEvent pe in @ViewBag.productevents)
+                        {
+                            if(pe.productId==product.productId)
+                            {
+                                <h6>Event: @pe.anEvent.name </h6>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+
