@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace eCommerceReloaded.Models 
 {
-    public class Product 
+    public class Product:BaseEntity 
     {
         public Product()
         {

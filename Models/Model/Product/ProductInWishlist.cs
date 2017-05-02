@@ -2,7 +2,7 @@ using System;
 
 namespace eCommerceReloaded.Models 
 {
-    public class ProductInWishlist 
+    public class ProductInWishlist:BaseEntity 
     {
         public int piwId{get;set;}
         public int productId{get;set;}

@@ -1,6 +1,6 @@
 namespace eCommerceReloaded.Models 
 {
-    public class ProductEvent 
+    public class ProductEvent:BaseEntity 
     {
         public int productEventId {get;set;}
         public int eventId{get;set;}
