@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using eCommerceReloaded.Models;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace eCommerceReloaded.Controllers
 {
@@ -84,9 +85,16 @@ namespace eCommerceReloaded.Controllers
                 };
                 _context.Add(newProduct);
             }
+            else 
+            {
+          
+              return View("productadmin");
+
+            }
             //finally save changes to Database
             _context.SaveChanges();
             return View("productadmin");
+            // return View("productadmin");
         }
     }
 }
