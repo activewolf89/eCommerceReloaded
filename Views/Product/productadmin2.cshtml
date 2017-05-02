@@ -1,5 +1,5 @@
 @using eCommerceReloaded.Models
-<link rel="stylesheet" href="~/css/admin.css" />
+<link rel="stylesheet" href="~/css/admin1.css" />
 <hr>
 <h1>Welcome to product management </h1>
 <div class="new">
@@ -53,19 +53,33 @@
         </form><br><br>
 </div>
 <div class="list-table">
-@if(@ViewBag.products!=null)
-{
-    @foreach(Product product in @ViewBag.products)
+    @if(@ViewBag.products!=null)
     {
-        <div class="pitem">
-            <a href="/product/@product.productId">
-                <img class="pimg" src="@product.imageUrl" alt="">
-            </a>
-            <h4 class="ptext">@product.name</h4>
-            <h4 class="ptext">(@product.inventory &nbsp left) </h4>
-        </div>
+        @foreach(Product product in @ViewBag.products)
+        {
+            <div class="pitem">
+                <a href="/product/@product.productId">
+                    <img class="pimg" src="@product.imageUrl" alt="">
+                </a>
+                <div class="pitemtext">
+                    <h4 class="ptext">Name:@product.name</h4>
+                    <h4 class="ptext">Category:@product.category.name </h4>
+                    <h4 class="ptext">Desc:@product.description </h4>
+                    <h4 class="ptext">(@product.inventory &nbsp left) </h4>
+                    @if(@ViewBag.productevents !=null)
+                    {
+                        foreach(ProductEvent pe in @ViewBag.productevents)
+                        {
+                            if(pe.productId==product.productId)
+                            {
+                                <h6>Event: @pe.anEvent.name </h6>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        }
     }
-}
 </div>
 
 

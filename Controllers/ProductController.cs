@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceReloaded.Controllers
 {
@@ -108,15 +109,21 @@ namespace eCommerceReloaded.Controllers
         public IActionResult ProductAdmin2()
         {
             List<Product> products =_context.products
+                    .Include(p=>p.category)
                     .OrderByDescending(c=>c.created_At)
                     .ToList();
             List<Category> categories =_context.categories.ToList();
             List<Event> events= _context.events
                     .OrderBy(e=>e.month)
                     .ToList();
+            List<ProductEvent> productevents=_context.productEvents
+                    .Include(p=>p.anEvent)
+                    .OrderByDescending(p=>p.productId)
+                    .ToList();
             ViewBag.categories=categories;
             ViewBag.events=events;
             ViewBag.products=products;
+            ViewBag.productevents=productevents;
             if(TempData["error"]!=null)
             {
                 ViewData["error"]=TempData["error"];

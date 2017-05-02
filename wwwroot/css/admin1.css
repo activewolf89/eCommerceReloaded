@@ -95,7 +95,7 @@ tr:nth-child(odd) {background: #FFF}
 }
 .pitem{
   display: inline-block;
-  width: 35%;
+  width: 90%;
   height: 230px;
   border: grey 1px solid;
   border-radius: 2px;
@@ -105,8 +105,13 @@ tr:nth-child(odd) {background: #FFF}
   margin: 0px 5px 20px 30px;
 }
 .pimg{
-  width: 100%;
+  width: 30%;
   height:auto;
+  vertical-align: top;
+}
+.pitemtext{
+  display: inline-block;
+  width: 65%;
 }
 .ptext{
   margin: 5px 0 0 0;
