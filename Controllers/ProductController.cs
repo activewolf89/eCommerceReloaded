@@ -4,14 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using eCommerceReloaded.Models;
 using System.Linq;
-<<<<<<< HEAD
-=======
-using Newtonsoft.Json;
->>>>>>> Reed
 
 namespace eCommerceReloaded.Controllers
 {
-    public class ProductController : Controller
+   public class ProductController : Controller
     {
         private eCommerceReloadedContext _context;
 
