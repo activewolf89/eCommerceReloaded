@@ -27,6 +27,8 @@
             <input name="name"/></br></br>
             <label>Inventory</label></br></br>
             <input name="inventory"/></br></br>
+            <label>Price</label></br></br>
+            <input name="price"/>Cent</br></br>
             <label >Please upload image of this product</label></br></br></br></br>
             <input type="file" name="image" accept="image/*"/></br></br>
             <label >Desc</label></br></br>
@@ -65,6 +67,10 @@
                     <h4 class="ptext">Name:@product.name</h4>
                     <h4 class="ptext">Category:@product.category.name </h4>
                     <h4 class="ptext">Desc:@product.description </h4>
+                    @{
+                        decimal price=(decimal)@product.price/100;
+                    }
+                    <h4 class="ptext">Price:$@price </h4>
                     <h4 class="ptext">(@product.inventory &nbsp left) </h4>
                     @if(@ViewBag.productevents !=null)
                     {

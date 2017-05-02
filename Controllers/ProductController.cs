@@ -156,7 +156,7 @@ namespace eCommerceReloaded.Controllers
         // Post : add a new product
         [HttpPost]
         [Route("/admin/product/new")]
-        public IActionResult NewProduct(string name,int inventory,string description, int category, IList<IFormFile> image, int[]  Event )
+        public IActionResult NewProduct(string name,int inventory,int price,string description, int category, IList<IFormFile> image, int[]  Event )
         {
             if(ModelState.IsValid)
             {
@@ -190,6 +190,7 @@ namespace eCommerceReloaded.Controllers
                     newproduct.name=name;
                     newproduct.inventory=inventory;
                     newproduct.description=description;
+                    newproduct.price=price;
                     newproduct.categoryId=category;
                     newproduct.imageUrl="/images/"+imageUrl;
                     _context.Add(newproduct);
