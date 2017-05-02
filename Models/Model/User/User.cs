@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCommerceReloaded.Models 
 {
@@ -22,6 +23,7 @@ namespace eCommerceReloaded.Models
         public string imgUrl{get;set;}
         public int wishlistId{get;set;}
         public Wishlist wishlist{get;set;}
+     
         public int cartId{get;set;}
         public Cart cart{get;set;}
         public List<Order> listOfOrders{get;set;}

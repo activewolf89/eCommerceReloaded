@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCommerceReloaded.Models 
 {
@@ -9,8 +10,9 @@ namespace eCommerceReloaded.Models
             listOfProductInCart = new List<ProductInCart>();
         }
         public int cartId{get;set;}
+      
         public int userId{get;set;}
-        public User user {get;set;}
+        public User users{get;set;}
         public List<ProductInCart> listOfProductInCart{get;set;}
     }
 }
