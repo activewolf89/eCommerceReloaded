@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Product Admin";
+    @using eCommerceReloaded.Models;
+}
+@model eCommerceReloaded.Models.ProductValidation
+<h1>Product Admin</h1>
+
+ 
+ <fieldset id = "AddProduct">
+    <legend> AddProduct </legend>
+<form asp-controller="Product" asp-action="addproduct" method="post">
+      
+    <label asp-for="name"></label>
+    <span asp-validation-for="name"></span>
+    <input asp-for="name"/>
+    
+    <label asp-for="imageUrl"></label>
+    <span asp-validation-for="imageUrl"></span>
+    <input asp-for="imageUrl"/>
+
+    <label asp-for="quantity"></label>
+    <span asp-validation-for="quantity"></span>
+    <input asp-for="quantity"/>
+
+    <label asp-for="category"></label>
+    <span asp-validation-for="category"></span>
+    <input asp-for="category"/>
+
+    <label asp-for="cost"></label>
+    <span asp-validation-for="cost"></span>
+    <input asp-for="cost"/>
+
+    <label asp-for="price"></label>
+    <span asp-validation-for="price"></span>
+    <input asp-for="price"/>
+
+    <button type="submit">Add Product</button>
+</form>
+</fieldset>

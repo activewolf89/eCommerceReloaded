@@ -1,0 +1,22 @@
+/*Write all of your CSS here*/
+.header-content{
+    width:100%;
+    background-color:darkgray;
+    height:50px;
+}
+.footer-content{
+    width:100%;
+    background-color:darkgray;
+    height:50px;
+}
+
+.body-content{
+    width:100%;
+    border:1px solid black;
+}
+input{
+    display:block;
+}
+span{
+    color:red;
+}
