@@ -14,7 +14,9 @@ namespace eCommerceReloaded.Models
         }
         public int productId{get;set;}
         public string name{get;set;}
+        public string description {get;set;}
         public byte[] image{get;set;}
+        public string imageUrl {get;set;}
         public int inventory{get;set;}
         public int cost{get;set;}
         public int price{get;set;}

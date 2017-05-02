@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace eCommerceReloaded.Models 
 {
@@ -10,6 +11,7 @@ namespace eCommerceReloaded.Models
         {
             listOfOrders = new  List<Order>();
         }
+        [Key]
         public int userId {get;set;}
         public string firstName {get;set;}
         public string lastName{get;set;}
@@ -22,8 +24,6 @@ namespace eCommerceReloaded.Models
         public string imgUrl{get;set;}
         public int wishlistId{get;set;}
         public Wishlist wishlist{get;set;}
-        public int cartId{get;set;}
-        public Cart cart{get;set;}
         public List<Order> listOfOrders{get;set;}
         public DateTime created_At {get;set;}
     }
