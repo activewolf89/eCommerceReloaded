@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace eCommerceReloaded.Models 
 {
-    public class Category 
+    public class Category:BaseEntity 
     {
         public Category()
         {
-        listOfProducts = new List<Product>();
+            listOfProducts = new List<Product>();
         }
         public int categoryId{get;set;}
         public string name{get;set;}

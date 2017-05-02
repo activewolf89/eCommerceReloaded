@@ -2,7 +2,7 @@ using System;
 
 namespace eCommerceReloaded.Models 
 {
-    public class ProductInCart 
+    public class ProductInCart:BaseEntity 
     {
         public int picId{get;set;}
         public int productId{get;set;}
