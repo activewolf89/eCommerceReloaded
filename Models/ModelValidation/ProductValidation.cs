@@ -7,7 +7,7 @@ public class ProductValidation
         [Required]
         public string name {get;set;}
         [Required]
-        public string imageUrl{get;set;}
+        public byte[] image{get;set;}
         [Required]
         [Range(0,100000000)]
         public int quantity{get;set;}
