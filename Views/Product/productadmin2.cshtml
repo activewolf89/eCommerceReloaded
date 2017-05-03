@@ -19,6 +19,40 @@
         </select><br>
         <input type="submit" value="Add">
     </form>
+    @if(@ViewBag.products!=null)
+    {
+        <h3> Banner Product Rotations </h3> 
+        <form action = "/admin/feature" method = "Post">
+        
+            @{
+
+            int count = 0;
+            }
+            
+            <h6> 0 removes product from rotation and higher number is greater priority </h6> 
+        @foreach(Product aProduct in @ViewBag.featureProducts)
+        {
+           <input  type = "text" id = "inLine" value = @aProduct.name name = "featuredName">
+           
+           <select id = "outLine" name = "featuredOrder" >
+               <option selected = "selected">@aProduct.featured </option> 
+               @for(var i = 0; i < @ViewBag.featureProducts.Count+1;i++)
+               {
+                   @if(@i != @aProduct.featured)
+                   {
+                   <option> @i </option>
+
+                   }
+               }
+            </select>
+            count++;
+            <br>
+        }
+        <input type = "submit" value = "Adjust Rotation">
+           
+        
+    </form> 
+    }
     <h3>Add a new product</h3>
     <form action="/admin/product/new" method="post" enctype="multipart/form-data">
             <p class="error">@ViewData["error"]</p>

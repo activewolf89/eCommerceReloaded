@@ -46,6 +46,10 @@ namespace eCommerceReloaded.Controllers
                     .Include(p=>p.anEvent)
                     .OrderByDescending(p=>p.productId)
                     .ToList();
+            List<Product> featureProducts = _context.products 
+            .OrderByDescending(o => o.featured)
+            .ToList();
+            ViewBag.featureProducts = featureProducts;
             ViewBag.categories=categories;
             ViewBag.events=events;
             ViewBag.products=products;
@@ -63,6 +67,7 @@ namespace eCommerceReloaded.Controllers
         {
             Category newcategory=new Category();
             newcategory.name=name;
+            newcategory.created_At = DateTime.Now;
             _context.Add(newcategory);
             _context.SaveChanges();
             return RedirectToAction("ProductAdmin2");          
@@ -142,6 +147,32 @@ namespace eCommerceReloaded.Controllers
             ViewBag.events=events;
             ViewBag.products=products;
             return View("productadmin2");
+        }
+        [HttpPost]
+        [Route("admin/feature")] 
+        public IActionResult featureProduct(string [] featuredName,int [] featuredOrder)
+        {
+        
+            List<Product> myProducts =_context.products.ToList();
+            for(var i = 0; i < featuredName.Length; i++)
+            {
+                Product singleProduct = myProducts.SingleOrDefault(p => p.name == featuredName[i]);
+                singleProduct.featured = featuredOrder[i];
+                if(featuredOrder[i] !=0)
+                {
+
+                    Product replacedProduct = myProducts.SingleOrDefault(p => p.featured == featuredOrder[i]);
+                    int? temp;
+                    temp = singleProduct.featured;
+                    replacedProduct.featured = (int)temp;
+                }
+                else 
+                {
+                    myProducts[i].featured = 0;
+                }
+            }
+            _context.SaveChanges();
+            return RedirectToAction("ProductAdmin2");
         }
     }
 }

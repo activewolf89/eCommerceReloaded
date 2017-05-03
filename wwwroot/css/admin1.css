@@ -148,4 +148,11 @@ li{
 
 }
 
-
+#inLine{
+    width:100px;
+    display:inline-block;
+}
+#outLine{
+  width:30px;
+  display:inline-block;
+}

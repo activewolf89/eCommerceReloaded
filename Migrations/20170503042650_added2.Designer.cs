@@ -8,9 +8,10 @@ using eCommerceReloaded.Models;
 namespace eCommerceReloaded.Migrations
 {
     [DbContext(typeof(eCommerceReloadedContext))]
-    partial class eCommerceReloadedContextModelSnapshot : ModelSnapshot
+    [Migration("20170503042650_added2")]
+    partial class added2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");

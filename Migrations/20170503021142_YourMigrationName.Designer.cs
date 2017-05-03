@@ -8,9 +8,10 @@ using eCommerceReloaded.Models;
 namespace eCommerceReloaded.Migrations
 {
     [DbContext(typeof(eCommerceReloadedContext))]
-    partial class eCommerceReloadedContextModelSnapshot : ModelSnapshot
+    [Migration("20170503021142_YourMigrationName")]
+    partial class YourMigrationName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
@@ -85,9 +86,6 @@ namespace eCommerceReloaded.Migrations
                     b.Property<DateTime>("created_At");
 
                     b.Property<string>("description");
-
-                    b.Property<int>("featured")
-                        .ValueGeneratedOnAdd();
 
                     b.Property<byte[]>("image");
 
