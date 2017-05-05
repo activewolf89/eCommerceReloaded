@@ -1,0 +1,60 @@
+@using eCommerceReloaded.Models
+<link rel="stylesheet" href="~/css/admin1.css" />
+
+<hr>
+<h1>Your Wishlist</h1>
+
+<div class="list-table">
+
+    @if(@ViewBag.items!=null)
+    {   
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+            @foreach(Product item in @ViewBag.items)
+            {
+            <tr>
+                <td>@item.productId</td>
+                <td>
+                    <a href="/product/@item.productId">
+                        <img class="pimg" src="@item.imageUrl" alt="">
+                    </a>
+                    <h4 class="ptext">Name:@item.name</h4>
+                </td>
+                <td>
+                    @{
+                        decimal price=(decimal)@item.price/100;
+                    }
+                    <h4 class="price">Price:$@price </h4>
+                </td>
+                <td>
+                    <form class="deletewishlistitem" action="/wishlist/deletewishitem" method="POST">
+                        <input type="hidden" class="pid" value=@item.productId>
+                        <input type="submit" value="Delete">
+                    </form>
+                    <form class="addwishlisttocart" action="/cart/addtocart" method="POST">
+                        <input type="hidden" class="pid" value=@item.productId>
+                        <input type="submit" value="Add to Cart">
+                    </form>
+                </td>
+
+            </tr>
+            }
+        </table>  
+        <hr>
+        <form action="/checkout" method="post">
+            <input type="submit" value="Proceed to checkout">
+        </form>     
+    }
+    else
+    {
+        <h2> There is not product in your wishlist now </h2>
+    }
+</div>
+
+
+

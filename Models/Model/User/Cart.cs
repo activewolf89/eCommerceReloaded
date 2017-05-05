@@ -19,4 +19,20 @@ namespace eCommerceReloaded.Models
         public virtual User user {get;set;}
         public List<ProductInCart> listOfProductInCart{get;set;}
     }
+
+    public class CartItem:BaseEntity
+    {
+        public Product product {get;set;}
+        public int quantity {get;set;}
+    }
+    public class CartContent:BaseEntity
+    {
+        public List<CartItem> items {get;set;}
+        public int total {get;set;}
+        public int quantity {get;set;}
+        public CartContent()
+        {
+            items =new List<CartItem>();           
+        }
+    }
 }

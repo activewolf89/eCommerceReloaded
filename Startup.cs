@@ -12,16 +12,15 @@ namespace eCommerceReloaded
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IConfiguration Configuration { get; private set; }
+        public Startup(IHostingEnvironment env)
         {
-            StripeConfiguration.SetApiKey(Configuration["DBInfo:ApiKey"]);
-            // Add framework services.
-            services.AddDbContext<eCommerceReloadedContext>(options => options.UseNpgsql(Configuration["DBInfo:ConnectionString"]));
-            services.AddMvc();
-            services.AddSession();
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
@@ -31,16 +30,16 @@ namespace eCommerceReloaded
             app.UseStaticFiles();
             app.UseSession();
             app.UseMvc();
-
         }
-        public IConfiguration Configuration { get; private set; }
-        public Startup(IHostingEnvironment env)
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(env.ContentRootPath)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            StripeConfiguration.SetApiKey(Configuration["DBInfo:ApiKey"]);
+            // Add framework services.
+            services.AddDbContext<eCommerceReloadedContext>(options => options.UseNpgsql(Configuration["DBInfo:ConnectionString"]));
+            services.Configure<MSApiKeyOption>(Configuration);
+            services.AddMvc();
+            services.AddSession();
         }
     }
     

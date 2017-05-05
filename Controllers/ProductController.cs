@@ -63,6 +63,13 @@ namespace eCommerceReloaded.Controllers
             ViewBag.events=events;
             ViewBag.products=products;
             ViewBag.productevents=productevents;
+            string pidincart=Request.Cookies["cart"];
+            if(pidincart!=null)
+            {
+                List<string> data = new List<string>();
+                data.AddRange(pidincart.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));       
+                ViewData["cartnumber"]=data.Count;
+            }
             if(TempData["error"]!=null)
             {
                 ViewData["error"]=TempData["error"];

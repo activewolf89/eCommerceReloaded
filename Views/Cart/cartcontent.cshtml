@@ -1,0 +1,69 @@
+@using eCommerceReloaded.Models
+<link rel="stylesheet" href="~/css/admin1.css" />
+<!--<a id="cart" class="btn btn-info btn-lg" href="/cartcontent">
+    <span class="glyphicon glyphicon-shopping-cart"></span>
+    <span class="error" id="cartnumber">@ViewData["cartnumber"]</span>
+</a> -->
+<hr>
+<h1>Your Shopping Cart</h1>
+
+<div class="list-table">
+
+    @if(@ViewBag.items!=null)
+    {    
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+            @foreach(CartItem item in @ViewBag.items)
+            {
+            <tr>
+                <td>@item.product.productId</td>
+                <td>
+                    <a href="/product/@item.product.productId">
+                        <img class="pimg" src="@item.product.imageUrl" alt="">
+                    </a>
+                    <h4 class="ptext">Name:@item.product.name</h4>
+                </td>
+                <td>
+                    @{
+                        decimal price=(decimal)@item.product.price/100;
+                        decimal subtotal=price*@item.quantity;
+                    }
+                    <h4 class="price">Price:$@price </h4>
+                </td>
+                <td>
+                    <form  action="/cart/changequantitiy" method="post">
+                        <input class="pid" type="hidden" value=@item.product.productId>
+                        <input type="number" class="changequantity" value=@item.quantity min="1" max=@item.product.inventory step="1">
+                    </form>
+                </td>
+                <td>
+                    $@subtotal
+                </td>
+                <td>
+                    <form class="deletecartitem" action="/cart/deletecartitem" method="POST">
+                        <input type="hidden" class="pid" value=@item.product.productId>
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+
+            </tr>
+            }
+        </table>  
+            <hr>
+        <form action="/checkout" method="post">
+            @{decimal total=(decimal)@ViewBag.total/100;}
+            <h3>Total (<span id="quantity">@ViewBag.quantity</span> &nbsp items): <span id="total">$@total</span></h3> 
+            <input type="submit" value="Proceed to checkout">
+        </form>     
+    }
+</div>
+
+
+
