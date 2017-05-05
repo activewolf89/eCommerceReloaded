@@ -1,5 +1,12 @@
 @using eCommerceReloaded.Models
 <link rel="stylesheet" href="~/css/admin1.css" />
+<a id="cart" class="btn btn-info btn-lg" href="/cartcontent">
+    <span class="glyphicon glyphicon-shopping-cart"></span>
+    <span class="error" id="cartnumber">@ViewData["cartnumber"]</span>
+</a> 
+<a id="cart" class="btn btn-info btn-lg" href="/wishlist/content">
+    <span class="glyphicon glyphicon-list-alt"></span>
+</a> 
 <hr>
 <h1>Welcome to product management </h1>
 <div class="new">
@@ -116,11 +123,22 @@
                             }
                         }
                     }
+                    <form class="addtocart" action="">
+                        <input type="hidden" class="pid" value=@product.productId>
+                        <input type="submit" value="Add to Cart">
+                    </form>
+                    <form class="addtolist" action="/addtolist" method="post">
+                        <input type="hidden" class="pid" value=@product.productId>
+                        <input type="submit" value="Add to WishList">
+                    </form>
                 </div>
             </div>
         }
     }
 </div>
+<form action="/clearcookie">
+  <input type="submit" value="clear cookie">
+</form>
 
 
 

@@ -86,8 +86,7 @@ namespace eCommerceReloaded.Migrations
 
                     b.Property<string>("description");
 
-                    b.Property<int>("featured")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("featured");
 
                     b.Property<byte[]>("image");
 

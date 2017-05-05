@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using eCommerceReloaded.Models;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+
 namespace eCommerceReloaded.Controllers
 {
     public class OrderController : Controller
@@ -14,13 +16,23 @@ namespace eCommerceReloaded.Controllers
             _context = context;
         }
 
-        // GET: /Home/
-        [HttpGet]
-        [Route("/orders")]
-        public IActionResult Index()
+        // Post: /Display order page
+        [HttpPost]
+        [Route("/checkout")]
+        public IActionResult Checkout()
         {
-            return View();
+            int? Uid = HttpContext.Session.GetInt32("UserId");
+            if(Uid==null){
+                Response.Cookies.Append("fromcheckout", "1");
+                return RedirectToAction("Index","User");
+            }
+            else
+            {
+                int userid=(int)Uid;
+                return View();
+            }
         }
-        
+
+     
     }
 }
