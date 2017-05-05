@@ -1,3 +1,4 @@
+
 @using eCommerceReloaded.Models
 <link rel="stylesheet" href="~/css/admin1.css" />
 <hr>
@@ -29,28 +30,25 @@
             int count = 0;
             }
             
+        <div id = "productRotation">
             <h6> 0 removes product from rotation and higher number is greater priority </h6> 
+            
         @foreach(Product aProduct in @ViewBag.featureProducts)
         {
-           <input  type = "text" id = "inLine" value = @aProduct.name name = "featuredName">
-           
-           <select id = "outLine" name = "featuredOrder" >
-               <option selected = "selected">@aProduct.featured </option> 
+           <input  type = "text" id = "inLine" value = @aProduct.name name = "featuredName" readonly>
+           <input type = "number" id = "midLine" value = "@aProduct.featured" readonly>
+           <select id = "outLine" name = "featuredOrder">
                @for(var i = 0; i < @ViewBag.featureProducts.Count+1;i++)
                {
-                   @if(@i != @aProduct.featured)
-                   {
                    <option> @i </option>
-
-                   }
+        
                }
             </select>
             count++;
             <br>
         }
+    </div> 
         <input type = "submit" value = "Adjust Rotation">
-           
-        
     </form> 
     }
     <h3>Add a new product</h3>
@@ -94,7 +92,7 @@
         @foreach(Product product in @ViewBag.products)
         {
             <div class="pitem">
-                <a href="/product/@product.productId">
+                <a href="/show/product/@product.productId">
                     <img class="pimg" src="@product.imageUrl" alt="">
                 </a>
                 <div class="pitemtext">

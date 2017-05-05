@@ -1,0 +1,70 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!--<link rel="stylesheet" href="~/css/Index.css" />-->
+@{
+    ViewData["Title"] = "Dashboard";
+     @using eCommerceReloaded.Models;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+</html>
+<div class = "container-fluid">
+    <div class="row content">
+        <div class="col-sm-3 sidenav">
+        <h4>Search Categories</h4>
+        <ul class="nav nav-pills nav-stacked">
+            <!--<ul class="nav">-->
+            @foreach(Category inCategory in @ViewBag.categoryList)
+            {
+            <li id="@inCategory.categoryId"><a href="/show/@inCategory.categoryId">@inCategory.name</a></li>
+            }
+        </ul><br>
+        </div>
+        <div class="col-sm-9 main">
+            <div class="form-group">
+                <div class="form-inline">
+                    <form>
+                        <h1><small>Search Products</small></h1>
+                        <select class="form-control" name = "category_filter">
+                            <option>Search All </option>
+                            @foreach(Category aCategory in @ViewBag.categoryList)
+                            {
+                                if(@aCategory.categoryId ==@ViewBag.singleCategory.categoryId)
+                                {
+                                    <option selected>@aCategory.name</option>
+                                }
+                                else 
+                                {
+                                    <option>@aCategory.name</option>
+                                }
+                            }
+                        </select> 
+                        <input type = "search" class="form-control" id="search" placeholder = "search">
+                        <input type = "submit" value = "submit" class="btn btn-primary">
+                        <br>
+                    </form>
+                </div>
+            </div>    
+            <div class = "row">
+                <div class="col-sm-12 main">
+                    @foreach(Product aProduct in @ViewBag.productInMyCategory)
+                    {
+                        <div class = "row">
+                            <div class="col-md-3"><img class="img-rounded" src="@aProduct.imageUrl" alt=""height="200" width="200"></div>
+                            <div class="col-md-3"> <em>@aProduct.description</em></div>
+                          
+                            <div class="col-md-1"><strong>$@aProduct.price </strong></div>
+                            <div class="col-md-2"><a class="btn btn-success" href="#" role="button">Add To Cart</a></div>
+                           <div class="col-md-2"> <a class="btn btn-default" href="#" role="button">Add To Wishlist</a></div>
+                       </div>
+                    }
+                    <input type = "hidden" id="currentPageId" value="@ViewBag.singleCategory.categoryId">
+                </div> 
+            </div>    
+        </div> 
+    </div>
+</div>
+
+

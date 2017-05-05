@@ -1,5 +1,134 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <style>
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 70%;
+      margin: auto;
+
+  }
+  .carousel-indicators li {
+  background-color: #999 !important;
+  background-color: rgba(70,70,70,.25) !important;
+}
+
+.carousel-indicators .active {
+  background-color: #444 !important;
+}
+  </style>
 @{
     ViewData["Title"] = "Dashboard";
      @using eCommerceReloaded.Models;
 }
-<h1>Dashboard</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+</html>
+<div class = "container">
+    
+    <div class="row content">
+        <div class="col-sm-3 sidenav">
+        <h4>Search Categories</h4>
+        <ul class="nav nav-pills nav-stacked">
+            @if(@ViewBag.categoryList != null)
+            {
+                @foreach(Category inCategory in @ViewBag.categoryList)
+                {
+                <li><a href="/show/@inCategory.categoryId">@inCategory.name</a></li>
+                }
+            }
+        </ul><br>
+        </div>
+        <div class="col-sm-9 main">
+            <div class="form-group">
+                <div class="form-inline">
+                    <h1><small>Search Products</small></h1>
+                    <h2><span style="color:red">@ViewData["Data"] </span></h2>
+                    <form method="post" action="/filterproduct">
+                        <select class="form-control" name = "category_filter">
+                            <option>Search All </option>
+                            @foreach(Category aCategory in @ViewBag.categoryList)
+                            {
+                            <option>@aCategory.name</option>
+                            }
+                        </select> 
+                        <input type = "text" name="search_query" class="form-control" id="search" placeholder = "search">
+                        <input type = "submit" value = "submit" class="btn btn-primary">
+                        <br>
+                    </form>
+                </div>
+            </div>
+            @if(@ViewBag.featuredProduct != null)
+            {
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="my-slider" class="carousel slide" data-ride="carousel">
+                        <!--indicators dot nav which are the little dots below image-->
+                    
+                            @{
+                                int x = 0;
+                                int y = 0;
+                            }
+                    <ol class="carousel-indicators">
+                        @foreach(Product aProduct in @ViewBag.featuredProduct)
+                        {
+                            @if(y == 0)
+                            {
+                                <li data-target="#my-slider" data-slide-to="@y" class="active"></li>
+                                y++;
+                            }
+                            else 
+                            {
+                                <li data-target="#my-slider" data-slide-to="@y"></li>
+                                y++;
+                            }
+                        }
+                    </ol>
+                        <!--wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                        @foreach(Product aProduct in @ViewBag.featuredProduct)
+                        {
+                            @if(x == 0)
+                            {
+                          <div class="item active">
+                                <img src="@aProduct.imageUrl" alt="@aProduct.productId">
+                      
+                            </div>
+                            x++;
+                            }
+                            else 
+                            {
+                         <div class="item">
+                                <img src="@aProduct.imageUrl" alt="@aProduct.productId">
+                    
+                            </div>    
+                            }
+                        }
+                            
+                        </div>
+                        <!--controls for next and previosu buttons -->
+                        <a class="left carousel-control" href="#my-slider" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                       <a class="right carousel-control" href="#my-slider" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+
+
+                    </div>
+                </div>
+
+
+            
+            </div>    
+            }
+        </div>    
+    </div>
+</div>
+
+

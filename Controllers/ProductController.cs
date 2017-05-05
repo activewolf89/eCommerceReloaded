@@ -27,6 +27,15 @@ namespace eCommerceReloaded.Controllers
         [Route("")]
         public IActionResult Index()
         {
+            ViewData["Data"] = TempData["error"];
+            List<Category> categoryList = _context.categories 
+            .ToList();
+            List<Product>featuredProduct = _context.products 
+            .Where(f=>f.featured !=0)
+            .OrderBy(m=>m.featured)
+            .ToList();
+            ViewBag.featuredProduct = featuredProduct;
+            ViewBag.categoryList = categoryList;
             return View();
         }
     
@@ -173,6 +182,66 @@ namespace eCommerceReloaded.Controllers
             }
             _context.SaveChanges();
             return RedirectToAction("ProductAdmin2");
+        }
+        [HttpGet]
+        [Route("show/{aCategoryId}")]
+        public IActionResult ShowIndividual(int aCategoryId)
+        {
+            List<Category> categoryList = _context.categories 
+            .ToList();
+            ViewBag.categoryList = categoryList;
+            Category singleCategory = _context.categories.SingleOrDefault(c => c.categoryId == aCategoryId);
+            List<Product> productInMyCategory = _context.products 
+            .Where(c => c.categoryId == aCategoryId)
+            .ToList();
+            ViewBag.singleCategory = singleCategory;
+            ViewBag.productInMyCategory = productInMyCategory;
+            return View();
+        }
+        [HttpGet]
+        [Route("show/product/{aProductId}")]
+        public IActionResult ShowAProduct(int aProductId)
+        {
+            Product singleProduct = _context.products
+            .Include(c => c.category)
+            .SingleOrDefault(product => product.productId == aProductId);
+            ViewBag.singleProduct = singleProduct;
+            return View();
+        }
+        [HttpPost]
+        [Route("/filterproduct")]
+        public IActionResult filterproduct( string category_filter, string search_query)
+        {
+            if(search_query != null)
+            {
+
+            List<Product>AllProductInCategory = new List<Product>();
+            List<Product>FilteredProduct = new List<Product>();
+            if(category_filter == "Search All")
+            {
+                AllProductInCategory = _context.products.ToList();
+            }
+            else 
+            {
+                AllProductInCategory = _context.products
+                .Include(c => c.category)
+                .Where(c => c.category.name == category_filter)
+                .ToList();
+            }
+            FilteredProduct = AllProductInCategory
+            .Where(p => p.name.Contains(search_query))
+            .ToList();
+            List<Category> categoryList = _context.categories 
+            .ToList();
+            ViewBag.categoryList = categoryList;
+            ViewBag.productInMySearch = FilteredProduct;
+            return View();
+            }
+            else 
+            {
+                TempData["error"] = "search has  to contain a value";
+                return RedirectToAction("Index");
+            }
         }
     }
 }

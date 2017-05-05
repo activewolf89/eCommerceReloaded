@@ -153,6 +153,17 @@ li{
     display:inline-block;
 }
 #outLine{
-  width:30px;
+  width:40px;
   display:inline-block;
+
+}
+#productRotation{
+  border:1px solid black;
+width:330px;
+overflow-y: auto;
+height: 300px;
+}
+#midLine{
+  display: inline-block;
+  width:30px;
 }
