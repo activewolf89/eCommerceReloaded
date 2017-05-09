@@ -212,7 +212,7 @@ namespace eCommerceReloaded.Migrations
 
                     b.Property<int>("wishlistId");
 
-                    b.Property<int>("zipcode");
+                    b.Property<string>("zipcode");
 
                     b.HasKey("userId");
 

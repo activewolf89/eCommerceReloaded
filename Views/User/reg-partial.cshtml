@@ -17,6 +17,18 @@
         }
         <label asp-for="Email"></label>
         <input asp-for="Email"/></br>
+        <span class="error" asp-validation-for="shipToAddress"></span></br>
+        <label asp-for="shipToAddress"></label>
+        <input asp-for="shipToAddress"/></br>
+        <span class="error" asp-validation-for="city"></span></br>
+        <label asp-for="city"></label>
+        <input asp-for="city"/></br>
+        <span class="error" asp-validation-for="state"></span></br>
+        <label asp-for="state"></label>
+        <input asp-for="state"/></br>
+        <span class="error" asp-validation-for="zipcode"></span></br>
+        <label asp-for="zipcode"></label>
+        <input type="text" asp-for="zipcode"/></br>
         <span class="error" asp-validation-for="Password"></span></br>
         <label asp-for="Password"></label>
         <input asp-for="Password"/></br>
