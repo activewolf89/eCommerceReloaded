@@ -1,11 +1,8 @@
 @using eCommerceReloaded.Models
 <link rel="stylesheet" href="~/css/admin1.css" />
-<!--<a id="cart" class="btn btn-info btn-lg" href="/cartcontent">
-    <span class="glyphicon glyphicon-shopping-cart"></span>
-    <span class="error" id="cartnumber">@ViewData["cartnumber"]</span>
-</a> -->
-<hr>
-<h1>Your Shopping Cart</h1>
+<h2>  this is your orders</h2>
+
+<h3>ShipTo:@ViewBag.shipto</h3>
 
 <div class="list-table">
 
@@ -20,12 +17,12 @@
                 <th>Subtotal</th>
                 <th>Action</th>
             </tr>
-            @foreach(CartItem item in @ViewBag.items)
+            @foreach(ProductInCart item in @ViewBag.items)
             {
             <tr>
-                <td>@item.product.productId</td>
+                <td>@item.productId</td>
                 <td>
-                    <a href="/product/@item.product.productId">
+                    <a href="/product/@item.productId">
                         <img class="pimg" src="@item.product.imageUrl" alt="">
                     </a>
                     <h4 class="ptext">Name:@item.product.name</h4>
@@ -57,13 +54,10 @@
             }
         </table>  
             <hr>
-        <form action="/orders" method="post">
+        <form action="/orderreview" method="post">
             @{decimal total=(decimal)@ViewBag.total/100;}
             <h3>Total (<span id="quantity">@ViewBag.quantity</span> &nbsp items): <span id="total">$@total</span></h3> 
-            <input type="submit" value="Proceed to checkout">
+            <input type="submit" value="Continue to review">
         </form>     
     }
 </div>
-
-
-

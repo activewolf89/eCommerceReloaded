@@ -23,7 +23,7 @@ namespace eCommerceReloaded.Controllers
             _msoptions = optionsAccessor.Value;
 
         }
-        // GET: /Login/
+        // GET: /Login and reg page
         [HttpGet]
         [Route("/regloginpage")]
         public IActionResult Index()
@@ -31,7 +31,23 @@ namespace eCommerceReloaded.Controllers
            int? Uid = HttpContext.Session.GetInt32("UserId");
             if(Uid!=null){
                 int userid=(int)Uid;
-                return RedirectToAction("Records","Account",new {userid=userid});
+                string ReturnUrl=HttpContext.Session.GetString("ReturnUrl");
+                if(ReturnUrl!=null)
+                {
+                    return Redirect(ReturnUrl);
+                }
+                else
+                {
+                    string referer = Request.Headers["Referer"].ToString();
+                    if(referer!=null)
+                    {
+                        return Redirect(referer);
+                    }
+                    else
+                    {
+                        return Redirect("/");
+                    }
+                }
             }
             else
             {
@@ -47,7 +63,6 @@ namespace eCommerceReloaded.Controllers
                     }
                     ViewBag.user=user;  
                 }
-   
                 return View();
             }            
         }
@@ -74,6 +89,10 @@ namespace eCommerceReloaded.Controllers
                         lastName = regmodel.LastName,
                         password = regmodel.Password,
                         email = regmodel.Email,
+                        shipToAddress = regmodel.shipToAddress,
+                        city=regmodel.city,
+                        state=regmodel.state,
+                        zipcode=regmodel.zipcode,
                         created_At = DateTime.Now
                     };
                     PasswordHasher<User> Hasher = new PasswordHasher<User>();
@@ -82,10 +101,46 @@ namespace eCommerceReloaded.Controllers
                     _context.SaveChanges();
                     User curuser= _context.users.SingleOrDefault(user => user.email == newuser.email);              
                     HttpContext.Session.SetInt32("UserId", curuser.userId);
+                    //save cookie content of cart and wishlist into database
+                    string pidincart=Request.Cookies["cart"];
+                    string pidinwishlist=Request.Cookies["wishlist"];
+                    if(pidincart!=null)
+                    {
+                        List<string> cartitemlist = new List<string>();
+                        cartitemlist.AddRange(pidincart.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                        // SaveCartContent(cartitemlist,curuser.userId);
+                        CommonFunctions common=new CommonFunctions(_context);
+                        common.SaveCartContent(cartitemlist,curuser.userId);
+                    }
+                    if(pidinwishlist!=null)
+                    {
+                        List<string> wishlistitemlist = new List<string>();
+                        wishlistitemlist.AddRange(pidinwishlist.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                        // SaveWishlistContent(wishlistitemlist,curuser.userId);
+                        CommonFunctions common=new CommonFunctions(_context);
+                        common.SaveWishlistContent(wishlistitemlist,curuser.userId);
+                    }
                     CookieOptions options = new CookieOptions();
                     options.Expires = DateTime.Now.AddDays(3650);
                     Response.Cookies.Append("uid", curuser.userId.ToString(),options);
-                    return RedirectToAction("Records","Account",new {userid=curuser.userId});
+                    string ReturnUrl=HttpContext.Session.GetString("ReturnUrl");
+                    if(ReturnUrl!=null)
+                    {
+                        HttpContext.Session.Remove("ReturnUrl");
+                        return Redirect(ReturnUrl);
+                    }
+                    else
+                    {
+                        string referer = Request.Headers["Referer"].ToString();
+                        if(referer!=null&&referer!="/regloginpage")
+                        {
+                            return Redirect(referer);
+                        }
+                        else
+                        {
+                            return Redirect("/");
+                        }
+                    }
                 }
 
             }
@@ -115,10 +170,59 @@ namespace eCommerceReloaded.Controllers
                     }
                     else{
                         HttpContext.Session.SetInt32("UserId", curuser.userId);
+                        string uid=Request.Cookies["uid"];
+                        if(uid!=null && Int32.Parse(uid)!=curuser.userId)
+                        {
+                            int userid = Int32.Parse(uid);
+                          //remove cookie for cart and wishlist if different user login in
+                            Response.Cookies.Delete("cart");
+                            Response.Cookies.Delete("wishlist");
+                        }
+                        else
+                        {
+                            //save cookie content of cart and wishlist into database
+                            string pidincart=Request.Cookies["cart"];
+                            string pidinwishlist=Request.Cookies["wishlist"];
+                            if(pidincart!=null)
+                            {
+                                List<string> cartitemlist = new List<string>();
+                                cartitemlist.AddRange(pidincart.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                                // SaveCartContent(cartitemlist,curuser.userId);
+                                CommonFunctions common=new CommonFunctions(_context);
+                                common.SaveCartContent(cartitemlist,curuser.userId);
+                            }
+                            if(pidinwishlist!=null)
+                            {
+                                List<string> wishlistitemlist = new List<string>();
+                                wishlistitemlist.AddRange(pidinwishlist.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                                // SaveWishlistContent(wishlistitemlist,curuser.userId);
+                                CommonFunctions common=new CommonFunctions(_context);
+                                common.SaveWishlistContent(wishlistitemlist,curuser.userId);
+                            }
+                        }
                         CookieOptions options = new CookieOptions();
                         options.Expires = DateTime.Now.AddDays(3650);
                         Response.Cookies.Append("uid", curuser.userId.ToString(),options);
-                        return RedirectToAction("Records","Account",new {userid=curuser.userId});
+                        string ReturnUrl=HttpContext.Session.GetString("ReturnUrl");
+                        if(ReturnUrl!=null)
+                        {
+                            HttpContext.Session.Remove("ReturnUrl");
+                            return Redirect(ReturnUrl);
+                        }
+                        else
+                        {
+                            string referer = Request.Headers["Referer"].ToString();
+                            Uri url=new Uri(referer);
+                            string path=url.AbsolutePath;
+                            if(referer!=null&&path!="/regloginpage")
+                            {
+                                return Redirect(referer);
+                            }
+                            else
+                            {
+                                return Redirect("/");
+                            }
+                        }
                     }
                 }
             }
@@ -131,7 +235,7 @@ namespace eCommerceReloaded.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return Redirect("/");
         }
 
         [HttpPost]
@@ -209,5 +313,76 @@ namespace eCommerceReloaded.Controllers
                 }  
             }                 
         }
+
+        // public void SaveCartContent(List<string> cartitemlist,int userId)
+        // {
+        //     User curuser=_context.users.SingleOrDefault(u=>u.userId==userId);
+        //     Cart curcart=_context.carts.SingleOrDefault(c=>c.user==curuser);
+        //     int cartid=-1;
+        //     if(curcart==null)
+        //     {
+        //         Cart newcart =new Cart();
+        //         newcart.user=curuser;
+        //         _context.Add(newcart);
+        //         _context.SaveChanges();
+        //         cartid=newcart.cartId;
+        //     }
+        //     else
+        //     {
+        //         cartid=curcart.cartId;
+        //         _context.productInCarts.RemoveRange(_context.productInCarts.Where(p=>p.cartId==curcart.cartId));
+        //     }
+        //     Dictionary<string,int> cartitem=new Dictionary<string,int>();
+        //     foreach(string id in cartitemlist)
+        //     {
+        //         if(!cartitem.ContainsKey(id))
+        //         {
+        //             cartitem.Add(id,1);
+        //         }
+        //         else
+        //         {
+        //             cartitem[id]+=1;
+        //         }
+        //     }
+        //     foreach(KeyValuePair<string,int> entry in cartitem)
+        //     {
+        //         ProductInCart newitem=new ProductInCart();
+        //         newitem.productId=Convert.ToInt32(entry.Key);
+        //         newitem.cartId=cartid;
+        //         newitem.quantity=entry.Value;
+        //         newitem.created_At=DateTime.Now;
+        //         _context.productInCarts.Add(newitem);
+        //     }
+        //     _context.SaveChanges();
+        // }
+        // public void SaveWishlistContent(List<string> wishlistitemlist,int userId)
+        // {
+        //     User curuser=_context.users.SingleOrDefault(u=>u.userId==userId);
+        //     Wishlist curwishlist=_context.wishlists.SingleOrDefault(c=>c.user==curuser);
+        //     int wishlistid=-1;
+        //     if(curwishlist==null)
+        //     {
+        //         Wishlist newwishlist =new Wishlist();
+        //         newwishlist.user=curuser;
+        //         _context.Add(newwishlist);
+        //         _context.SaveChanges();
+        //         wishlistid=newwishlist.wishlistId;
+        //     }
+        //     else
+        //     {
+        //         wishlistid=curwishlist.wishlistId;
+        //         _context.productInWishlists.RemoveRange(_context.productInWishlists.Where(p=>p.wishlistId==curwishlist.wishlistId));
+        //     }
+        //     foreach(string id in wishlistitemlist)
+        //     {
+        //         ProductInWishlist newitem=new ProductInWishlist();
+        //         newitem.productId=Convert.ToInt32(id);
+        //         newitem.wishlistId=wishlistid;
+        //         newitem.created_At=DateTime.Now;
+        //         _context.productInWishlists.Add(newitem);
+        //     }
+        //     _context.SaveChanges();
+
+        // }
     }
 }

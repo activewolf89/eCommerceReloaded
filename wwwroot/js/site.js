@@ -52,7 +52,7 @@ listItems.each(function(li) {
         var url="/cart/addtocart"
         var postdata={productId:$(this).children(".pid").val()}
         var thiscell=$(this).parent()
-        var newcontent="<h3>Added to Cart</h3><form action=\"/checkout\" method=\"post\"><input type=\"submit\" value=\"Proceed to checkout\"></form><form action=\"/cartcontent\" method=\"get\"><input type=\"submit\" value=\"View Cart\"></form>"
+        var newcontent="<h3>Added to Cart</h3><form action=\"/orders\" method=\"post\"><input type=\"submit\" value=\"Proceed to checkout\"></form><form action=\"/cartcontent\" method=\"get\"><input type=\"submit\" value=\"View Cart\"></form>"
         $.post(url, postdata, function(data){
                thiscell.empty()
                thiscell.append(newcontent)              
@@ -141,5 +141,5 @@ listItems.each(function(li) {
             event.preventDefault();
         }
     })
-
 })
+

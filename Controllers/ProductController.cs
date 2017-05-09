@@ -36,6 +36,13 @@ namespace eCommerceReloaded.Controllers
             .ToList();
             ViewBag.featuredProduct = featuredProduct;
             ViewBag.categoryList = categoryList;
+            int? Uid = HttpContext.Session.GetInt32("UserId");
+            if(Uid!=null){
+                int userid=(int)Uid;
+                User user =_context.users 
+                        .SingleOrDefault(u=>u.userId==userid);
+                ViewBag.user=user;  
+            }
             return View();
         }
     

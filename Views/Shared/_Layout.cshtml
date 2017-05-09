@@ -10,13 +10,28 @@
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
     
     <link rel="stylesheet" href="~/css/site.css" />
-</head>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="~/js/site.js" asp-append-version="true"></script></head>
 <body>
     <div class ="header-content">
         <p> 
             <a href = "/">Home</a> 
             <a href = "/admin">Product Admin</a> 
         </p> 
+        @if(@ViewBag.user!=null)
+        {
+            <h2>Welcome:@ViewBag.user.firstName</h2>
+            <a href = "/logout">Logout</a> 
+        }
+        else
+        {
+            <a href = "/regloginpage">Login</a> 
+        }
+
     </div> 
     <div class="container body-content">
         @{
@@ -28,15 +43,6 @@
     </div>
     <div class = "footer-content">
     </div> 
-        
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.js"
-                asp-fallback-test="window.jQuery">
-        </script>
-        
-        
-        <script src="~/js/site.js" asp-append-version="true"></script>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>
