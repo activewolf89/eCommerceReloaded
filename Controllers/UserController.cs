@@ -132,7 +132,9 @@ namespace eCommerceReloaded.Controllers
                     else
                     {
                         string referer = Request.Headers["Referer"].ToString();
-                        if(referer!=null&&referer!="/regloginpage")
+                        Uri url=new Uri(referer);
+                        string path=url.AbsolutePath;
+                        if(referer!=null&&path!="/regloginpage")
                         {
                             return Redirect(referer);
                         }
