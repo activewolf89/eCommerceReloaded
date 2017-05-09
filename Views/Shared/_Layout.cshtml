@@ -19,6 +19,11 @@
         </p> 
     </div> 
     <div class="container body-content">
+        @{
+            string actionName = this.ViewContext.RouteData.Values["controller"].ToString();
+            string actionNames = this.ViewContext.RouteData.Values["action"].ToString();
+
+        }
         @RenderBody()
     </div>
     <div class = "footer-content">

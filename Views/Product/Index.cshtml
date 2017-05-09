@@ -94,7 +94,9 @@
                             @if(x == 0)
                             {
                           <div class="item active">
+                                        <a href="/show/product/@aProduct.productId">
                                 <img src="@aProduct.imageUrl" alt="@aProduct.productId">
+                                </a>
                       
                             </div>
                             x++;
@@ -102,8 +104,9 @@
                             else 
                             {
                          <div class="item">
+                             <a href="/show/product/@aProduct.productId">
                                 <img src="@aProduct.imageUrl" alt="@aProduct.productId">
-                    
+                                </a>
                             </div>    
                             }
                         }

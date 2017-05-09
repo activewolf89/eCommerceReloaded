@@ -143,4 +143,3 @@ listItems.each(function(li) {
     })
 
 })
->>>>>>> master
