@@ -12,6 +12,7 @@ namespace eCommerceReloaded.Models
         public int orderId{get;set;}
         public int userId{get;set;}
         public User user {get;set;}
+    
         public DateTime created_At{get;set;}
         public List<ProductInOrder> listOfProductInOrder{get;set;}
     }

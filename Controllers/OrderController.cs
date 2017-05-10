@@ -5,6 +5,7 @@ using eCommerceReloaded.Models;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace eCommerceReloaded.Controllers
 {
@@ -81,9 +82,54 @@ namespace eCommerceReloaded.Controllers
                 }
                 ViewBag.total=total;
                 ViewBag.quantity=quantity;
+                
                  return View("orders");
             }
         }
-     
+        [HttpPost]
+        [Route("/orderreview")]
+
+        public IActionResult orderreview(int quantity, int total, int customer)
+        {
+            User checkOutCustomer = _context.users.SingleOrDefault(c=> c.userId == customer);
+            ViewBag.quantity = quantity; 
+            ViewBag.total = total; 
+            
+            ViewBag.customer = checkOutCustomer; 
+            return View();
+        }
+ [HttpPost]
+    [Route("charge")]
+    public IActionResult orderstatus( string stripeToken, string address, string cardholdername, double amount, string description)
+    {
+        	var myCharge = new StripeChargeCreateOptions();
+
+                        
+   // when the customers trial ends (overrides the plan if applicable)   
+	// always set these properties
+	myCharge.Amount = (int)(amount * 100);
+	myCharge.Currency = "usd";
+	// set this if you want to
+	myCharge.Description = description;
+    
+
+
+	myCharge.SourceTokenOrExistingSourceId = stripeToken;
+    
+	// set this property if using a customer - this MUST be set if you are using an existing source!
+
+	// (not required) set this to false if you don't want to capture the charge yet - requires you call capture later
+	myCharge.Capture = true;
+
+
+	var chargeService = new StripeChargeService();
+	StripeCharge stripeCharge = chargeService.Create(myCharge);
+    if(stripeCharge.Status == "succeeded")
+        {
+            return View();
+        }
+        return RedirectToAction("orders");
     }
+    }
+     
 }

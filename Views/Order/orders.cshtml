@@ -54,9 +54,14 @@
             }
         </table>  
             <hr>
-        <form action="/orderreview" method="post">
-            @{decimal total=(decimal)@ViewBag.total/100;}
+            
+                decimal total=(decimal)@ViewBag.total/100;
+                
             <h3>Total (<span id="quantity">@ViewBag.quantity</span> &nbsp items): <span id="total">$@total</span></h3> 
+        <form action="/orderreview" method="post">
+            <input type = "hidden" name="quantity"  value="@ViewBag.quantity"/> 
+            <input type = "hidden" name="total" value="@ViewBag.total"/> 
+            <input type = "hidden" name="customer" value="@ViewBag.user.userId"/> 
             <input type="submit" value="Continue to review">
         </form>     
     }
