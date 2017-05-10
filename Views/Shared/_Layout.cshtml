@@ -22,6 +22,13 @@
             <a href = "/">Home</a> 
             <a href = "/admin">Product Admin</a> 
         </p> 
+        <a id="cart" class="btn btn-info btn-lg" href="/cartcontent">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            <span class="error" id="cartnumber">@ViewData["cartnumber"]</span>
+        </a> 
+        <a id="cart" class="btn btn-info btn-lg" href="/wishlist/content">
+            <span class="glyphicon glyphicon-list-alt"></span>
+        </a> 
         @if(@ViewBag.user!=null)
         {
             <h2>Welcome:@ViewBag.user.firstName</h2>
